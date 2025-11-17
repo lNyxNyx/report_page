@@ -1,0 +1,25 @@
+/* RADIO SIMPLES */
+    .sr-only {
+      @apply absolute w-px h-px p-0 -m-px overflow-hidden clip rect(0,0,0,0) border-0;
+    }
+
+    .peer:checked + span {
+      @apply bg-primary text-white border-primary;
+    }
+
+    .char-counter {
+      @apply text-xs text-gray-500 mt-1 text-right;
+    }
+
+    .input-error {
+      @apply border-red-500 ring-4 ring-red-200 animate-pulse;
+      transition: all 0.3s ease;
+    }
+
+    .error-message {
+      @apply text-red-600 text-sm font-medium flex items-center gap-1 mt-1 hidden;
+    }
+
+    .error-icon {
+      @apply w-4 h-4 text-red-600;
+    }

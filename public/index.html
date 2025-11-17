@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Canal de Denúncia - CittàTelecom</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+    <script src="./config.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center justify-start p-4">
+
+  <!-- FORMULÁRIO -->
+  <div class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6 md:p-8">
+    <h1 class="text-2xl md:text-3xl font-bold text-center text-primary mb-8">Formulário - Canal de Denúncia</h1>
+
+    <form id="denunciaForm" class="space-y-10" novalidate autocomplete="off">
+
+      <!-- SOBRE VOCÊ -->
+      <section>
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Sobre você</h3>
+
+        <!-- Identificação -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">
+            Você deseja se identificar? <span class="text-red-500">*</span>
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="isIdentified" value="YES" class="sr-only peer" required />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Sim</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="isIdentified" value="NO" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Não</span>
+            </label>
+          </div>
+          <p class="error-message" id="error-isIdentified" role="alert" aria-live="assertive">
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Campos condicionais: Identificação -->
+        <div id="identificacaoCampos" class="space-y-4 opacity-0 transition-all duration-500 ease-in-out mb-8" style="height: 0; overflow: hidden;">
+          <div>
+            <label for="fullName" class="block font-medium text-gray-700 mb-2">Nome completo <span class="text-red-500">*</span></label>
+            <input type="text" id="fullName" name="fullName" maxlength="100" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Ex: José Campos" />
+            <div class="char-counter">0/100 caracteres</div>
+            <p class="error-message" id="error-fullName" role="alert" aria-live="assertive">
+              Campo obrigatório.
+            </p>
+          </div>
+          <div>
+            <label for="jobTitle" class="block font-medium text-gray-700 mb-2">Cargo <span class="text-red-500">*</span></label>
+            <input type="text" id="jobTitle" name="jobTitle" maxlength="100" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Ex: Analista de RH" />
+            <div class="char-counter">0/100 caracteres</div>
+            <p class="error-message" id="error-jobTitle" role="alert" aria-live="assertive">
+              Campo obrigatório.
+            </p>
+          </div>
+          <div>
+            <label for="phone" class="block font-medium text-gray-700 mb-2">Telefone <span class="text-red-500">*</span></label>
+            <input type="tel" id="phone" name="phone" maxlength="20" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="(11) 98765-4321" />
+            <div class="char-counter">0/20 caracteres</div>
+            <p class="error-message" id="error-phone" role="alert" aria-live="assertive">
+              Campo obrigatório.
+            </p>
+          </div>
+          <div>
+            <label for="email" class="block font-medium text-gray-700 mb-2">E-mail <span class="text-red-500">*</span></label>
+            <input type="email" id="email" name="email" maxlength="100" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="e-mail@empresa.com" />
+            <div class="char-counter">0/100 caracteres</div>
+            <p class="error-message" id="error-email" role="alert" aria-live="assertive">
+              E-mail inválido ou vazio.
+            </p>
+          </div>
+        </div>
+
+        <!-- Relação -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">Qual é a sua relação com a CittàTelecom? <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="relationshipContainer"></div>
+          <p class="error-message" id="error-relationship" role="alert" aria-live="assertive">
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Empresa -->
+        <div class="mb-6">
+          <label for="wbOrgName" class="block font-medium text-gray-700 mb-2">Em qual empresa você trabalha? <span class="text-red-500">*</span></label>
+          <input type="text" id="wbOrgName" name="wbOrgName" maxlength="500" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Nome da empresa" required />
+          <div class="char-counter">0/500 caracteres</div>
+          <p class="error-message" id="error-wbOrgName" role="alert" aria-live="assertive">
+            Campo obrigatório.
+          </p>
+        </div>
+      </section>
+
+      <!-- SOBRE O RELATO -->
+      <section>
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Sobre o seu relato</h3>
+
+        <!-- Tipo de denúncia -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">Qual o tipo de denúncia? <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="tipoDenunciaContainer"></div>
+          <p class="error-message" id="error-type" role="alert" aria-live="assertive">
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Local -->
+        <div class="mb-6">
+          <label for="location" class="block font-medium text-gray-700 mb-2">Onde ocorreu? <span class="text-red-500">*</span></label>
+          <select id="location" name="location" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="limeira_sp">LIMEIRA - SP</option>
+            <option value="campinas_sp">CAMPINAS - SP</option>
+            <option value="cordeiropolis_sp">CORDEIRÓPOLIS - SP</option>
+            <option value="vision_offices_rj">VISION OFFICES - RJ</option>
+            <option value="rio_comporate_rj">RIO CORPORATE - RJ</option>
+            <option value="station_mall_rj">STATION MALL - RJ</option>
+            <option value="poa_rs">POA - RS</option>
+            <option value="Outro">Outras Localidades</option>
+          </select>
+          <p class="error-message" id="error-location" role="alert" aria-live="assertive">
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Data -->
+        <div class="mb-6">
+          <label for="eventDate" class="block font-medium text-gray-700 mb-2">Quando ocorreu? <span class="text-red-500">*</span></label>
+          <input type="text" id="eventDate" name="eventDate" maxlength="500" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Ex: 10/11/2025" required />
+          <div class="char-counter">0/500 caracteres</div>
+          <p class="error-message" id="error-eventDate" role="alert" aria-live="assertive">
+           
+            Campo obrigatório.
+          </p>
+        </div>
+
+        <!-- Quem cometeu -->
+        <div class="mb-6">
+          <label for="reportedPerson" class="block font-medium text-gray-700 mb-2">Quem cometeu? <span class="text-red-500">*</span><p class="text-sm text-gray-500 font-normal">Nome, cargo, área...</p></label>
+          <input type="text" id="reportedPerson" name="reportedPerson" maxlength="500" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" placeholder="Ex: João Silva - Gerente" required />
+          <div class="char-counter">0/500 caracteres</div>
+          <p class="error-message" id="error-reportedPerson" role="alert" aria-live="assertive">
+           
+            Campo obrigatório.
+          </p>
+        </div>
+
+        <!-- Continua? -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">Continua ocorrendo? <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-3 gap-3">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="keepHappening" value="MAYBE" class="sr-only peer" required />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Talvez</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="keepHappening" value="NO" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Não</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="keepHappening" value="YES" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Sim</span>
+            </label>
+          </div>
+          <p class="error-message" id="error-keepHappening" role="alert" aria-live="assertive">
+           
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Testemunhas -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">Havia testemunhas? <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="hasWitnesses" value="YES" class="sr-only peer" required />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition">Sim</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="hasWitnesses" value="NO" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition">Não</span>
+            </label>
+          </div>
+          <p class="error-message" id="error-hasWitnesses" role="alert" aria-live="assertive">
+           
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Campo condicional: Testemunhas -->
+        <div id="witnessesField" class="space-y-2 opacity-0 transition-all duration-500 ease-in-out mb-8" style="height: 0; overflow: hidden;">
+          <label for="witnessNames" class="block font-medium text-gray-700 mb-2">
+            Cite o nome das testemunhas. <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="witnessNames" name="witnessNames" maxlength="500"
+                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition"
+                 placeholder="Ex: Maria Silva, João Santos" />
+          <div class="char-counter">0/500 caracteres</div>
+          <p class="error-message" id="error-witnessNames" role="alert" aria-live="assertive">
+           
+            Campo obrigatório.
+          </p>
+        </div>
+
+        <!-- Descrição -->
+        <div class="mb-6">
+          <label for="description" class="block font-medium text-gray-700 mb-2">Descreva o ocorrido <span class="text-red-500">*</span><p class="text-sm text-gray-500 font-normal">Máximo de detalhes</p></label>
+          <textarea id="description" name="description" rows="8" maxlength="12000" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition resize-none" placeholder="Fatos, datas, locais..." required></textarea>
+          <div class="char-counter">0/12.000 caracteres</div>
+          <p class="error-message" id="error-description" role="alert" aria-live="assertive">
+           
+            Campo obrigatório.
+          </p>
+        </div>
+
+        <!-- Certeza -->
+        <div class="mb-6">
+          <label class="block font-medium text-gray-700 mb-2">Qual o grau de certeza sobre o fato que você está denunciando ? <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="confidenceLevel" value="NONE" class="sr-only peer" required />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Já ouvi</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="confidenceLevel" value="SURE" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Tenho certeza</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input type="radio" name="confidenceLevel" value="SUSPECT" class="sr-only peer" />
+              <span class="w-full py-3 px-4 border border-gray-300 rounded-lg peer-checked:bg-primary peer-checked:text-white peer-focus:ring-2 peer-focus:ring-primary transition text-sm font-medium text-center">Suspeito</span>
+            </label>
+          </div>
+          <p class="error-message" id="error-confidenceLevel" role="alert" aria-live="assertive">
+          
+            Selecione uma opção.
+          </p>
+        </div>
+
+        <!-- Upload -->
+        <div class="mb-8">
+          <label class="block font-medium text-gray-700 mb-2">Evidências (opcional)<p class="text-sm text-gray-500 font-normal">Máx. 1 GB</p></label>
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition">
+            <input type="file" name="evidenceFiles" id="evidenceFiles" multiple accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" class="hidden" />
+            <label for="evidenceFiles" class="cursor-pointer text-primary font-medium">Escolha arquivos</label>
+            <p class="text-sm text-gray-500 mt-2">ou arraste aqui</p>
+          </div>
+          <div id="file-list" class="mt-3 space-y-1"></div>
+        </div>
+
+        <!-- BOTÃO ENVIAR -->
+        <div class="flex justify-center">
+          <button type="submit" id="submitBtn"
+            class="bg-primary hover:bg-primary-hover text-white font-bold py-3 px-12 rounded-lg transition shadow-md hover:shadow-lg text-lg flex items-center gap-2">
+            <span id="submitText">Enviar</span>
+            <svg id="loadingIcon" class="hidden w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- PROTOCOLO -->
+      <div id="protocoloSection" class="hidden mt-10 p-6 bg-green-50 border border-green-200 rounded-lg text-center">
+        <p class="text-lg font-bold text-success">Denúncia enviada com sucesso!</p>
+        <p class="mt-2"><strong>Protocolo:</strong> <span id="protocoloNumero" class="font-mono text-xl"></span></p>
+        <p class="mt-2"><strong>Anote este número</strong> para acompanhamento.</p>
+        <p class="mt-3">
+          Consulte em: <a href="/cittatelecom/status?lang=pt" target="_blank" class="text-primary underline font-bold">Página de acompanhamento</a>
+        </p>
+        <p class="mt-3 text-sm text-gray-600">Status disponível em até 72h úteis.</p>
+      </div>
+    </form>
+  </div>
+    <script src="./script.js"></script>
+</body>
+</html>
